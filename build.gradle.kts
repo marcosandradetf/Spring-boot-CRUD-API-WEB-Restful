@@ -2,8 +2,13 @@ import javax.swing.Spring
 
 plugins {
     java
+    application
     id("org.springframework.boot") version "3.2.4"
     id("io.spring.dependency-management") version "1.1.4"
+}
+
+application {
+	mainClass.set("org.infnet.infnetapiwebrestful.InfnetApiWebRestfulApplication")
 }
 
 group = "org.infnet"
@@ -25,6 +30,13 @@ dependencies {
     implementation("com.h2database:h2")
 
 
+}
+
+tasks.named<JavaExec>("run") {
+    // Configuração dos argumentos para a tarefa run
+    if (project.hasProperty("args")) {
+        args(*(project.property("args") as String).split(" ").toTypedArray())
+    }
 }
 
 tasks.withType<Test> {
